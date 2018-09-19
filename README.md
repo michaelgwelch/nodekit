@@ -1,4 +1,4 @@
-# serverkit
+# nodekit
 
 Metasys Server REST API client for node.js
 
