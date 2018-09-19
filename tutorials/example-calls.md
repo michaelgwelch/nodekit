@@ -35,7 +35,7 @@ You can use the `for-await` syntax in ES9:
 
 ```javascript
 const alarms = await api.alarms();
-for await(const alarm in alarms) {
+for await(const alarm of alarms) {
   console.log(JSON.stringify(alarm, null, 2));
 }
 ```

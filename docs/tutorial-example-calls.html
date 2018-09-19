@@ -108,7 +108,7 @@ within an async method like <code>main</code>.</p>
 <code>serverkit</code> API provides a simplified mechanism for dealing with these paged collections.
 You can use the <code>for-await</code> syntax in ES9:</p>
 <pre class="prettyprint source lang-javascript"><code>const alarms = await api.alarms();
-for await(const alarm in alarms) {
+for await(const alarm of alarms) {
   console.log(JSON.stringify(alarm, null, 2));
 }</code></pre><p><strong>Note:</strong> Every call to an async generator method like <code>alarms</code> may result in calls
 to the server. If you want to iterate over a collection multiple times you should
