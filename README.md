@@ -12,20 +12,23 @@ npm install @metasys/nodekit
 
 ## Usage
 
-```javascript
-const { MetasysServerApi } = require('@jci/serverkit');
+The following example will log into the server, and fetch and print each alarm with a priority in
+the range of 0 to 10.
 
-async main() {
-  const api = new MetasysSeverApi();
+```javascript
+const { MetasysServerApi } = require('@metasys/nodekit');
+
+async function main() {
+  const api = new MetasysServerApi();
   await api.login('user', 'pass', 'host');
 
-  const alarms = api.alarms({ priorityRange: '0,120' });
-  for await (const alarm in alarms) {
+  const alarms = await api.alarms({ priorityRange: '0,10' });
+  for await (const alarm of alarms) {
     console.log(JSON.stringify(alarm, null, 2));
   }
-
-  main();
 }
+
+main();
 ```
 
 ## Client Options
