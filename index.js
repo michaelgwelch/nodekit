@@ -202,6 +202,9 @@ class MetasysServerApi {
       } else if (e.error && e.error.ApiErrorMessage && e.error.ApiErrorMessage.startsWith('Unable to login.')
         && e.statusCode && e.statusCode >= 400 && e.statusCode < 500) {
         console.log('Error: There was an issue logging in. Your credentials may have been incorrect. Please try again.');
+      } else if (e.cause && e.cause.code === 'DEPTH_ZERO_SELF_SIGNED_CERT') {
+        console.log('Error: the server is using a self-signed cert that is not trusted.');
+        console.log('If you trust this server, configure your computer to trust its certificate.');
       } else {
         console.log(e);
       }
