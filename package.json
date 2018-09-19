@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.jci.com/serverkit/serverkit-nodejs.git"
+    "url": "https://github.com/metasys-server/nodekit"
   },
   "keywords": [
     "rest",
@@ -17,7 +17,13 @@
     "metasys",
     "server"
   ],
-  "author": "Michael Welch",
+  "author": {
+    "name": "Michael Welch",
+    "email": "michael.g.welch@jci.com"
+  },
+  "engines": {
+    "node": ">=10.0"
+  },
   "license": "BSD-3-Clause",
   "devDependencies": {
     "eslint": "^5.4.0",
