@@ -1,13 +1,13 @@
 # nodekit
 
-Metasys Server REST API client for node.js
+Metasys® Server REST API client for node.js
 
-This library is used to consume the Metasys Server API. It currently supports V1 of the Metasys Server API.
+This library is used to consume the Metasys Server API. It currently supports V1 of the Metasys® Server API.
 
 ## Installation
 
 ```bash
-npm install @jci/serverkit
+npm install @metasys/nodekit
 ```
 
 ## Usage
