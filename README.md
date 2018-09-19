@@ -4,6 +4,8 @@ Metasys® Server REST API client for node.js
 
 This library is used to consume the Metasys Server API. It currently supports V1 of the Metasys® Server API.
 
+See [Documentation](https://metasys-server.github.io/nodekit) for more information.
+
 ## Installation
 
 ```bash
