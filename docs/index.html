@@ -84,7 +84,7 @@
 
 
 
-    <h3>@metasys/nodekit 1.0.0</h3>
+    <h3>@metasys/nodekit 1.0.2</h3>
 
 
 
@@ -102,21 +102,23 @@
 
 
     <section class="readme-section">
-        <article><h1>serverkit</h1><p>Metasys Server REST API client for node.js</p>
-<p>This library is used to consume the Metasys Server API. It currently supports V1 of the Metasys Server API.</p>
-<h2>Installation</h2><pre class="prettyprint source lang-bash"><code>npm install @jci/serverkit</code></pre><h2>Usage</h2><pre class="prettyprint source lang-javascript"><code>const { MetasysServerApi } = require('@jci/serverkit');
+        <article><h1>nodekit</h1><p>Metasys® Server REST API client for node.js</p>
+<p>This library is used to consume the Metasys Server API. It currently supports V1 of the Metasys® Server API.</p>
+<h2>Installation</h2><pre class="prettyprint source lang-bash"><code>npm install @metasys/nodekit</code></pre><h2>Usage</h2><p>The following example will log into the server, and fetch and print each alarm with a priority in
+the range of 0 to 10.</p>
+<pre class="prettyprint source lang-javascript"><code>const { MetasysServerApi } = require('@metasys/nodekit');
 
-async main() {
-  const api = new MetasysSeverApi();
+async function main() {
+  const api = new MetasysServerApi();
   await api.login('user', 'pass', 'host');
 
-  const alarms = api.alarms({ priorityRange: '0,120' });
-  for await (const alarm in alarms) {
+  const alarms = await api.alarms({ priorityRange: '0,10' });
+  for await (const alarm of alarms) {
     console.log(JSON.stringify(alarm, null, 2));
   }
+}
 
-  main();
-}</code></pre><h2>Client Options</h2><p>This library depends on <a href="https://github.com/request/request#tlsssl-protocol">request</a>. You can pass an <code>options</code> argument as defined by <code>request</code> as the fourth parameter
+main();</code></pre><h2>Client Options</h2><p>This library depends on <a href="https://github.com/request/request#tlsssl-protocol">request</a>. You can pass an <code>options</code> argument as defined by <code>request</code> as the fourth parameter
 of the <code>login</code> method for any special options you need. These will be used on every future call made by the api.</p>
 <p>For example, if you are using a self signed certificate on your Metasys Server, then the
 calls to the API may fail with certificate errors if your machine is not setup to trust
