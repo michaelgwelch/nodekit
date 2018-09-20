@@ -176,16 +176,17 @@ class MetasysServerApi {
   */
   async login(user, pass, host, options) {
     this.host = host;
-    const url = `https://${host}/api/api/authentication/login`;
+    const url = `https://${host}/api/v1/login`;
     const payload = { username: user, password: pass };
     try {
+      // By default POSTs don't follow redirects.
       const result = await this.requestOriginal
-        .post(Object.assign({ url, json: true, form: payload }, options));
+        .post(Object.assign({ url, json: true, followAllRedirects: true, form: payload }, options));
       this.options = Object.assign({
         baseUrl: `https://${host}/api/v1`,
         json: true,
         auth: {
-          bearer: result.access_token,
+          bearer: result.accessToken,
         },
       }, options);
       this.rp = this.requestOriginal.defaults(this.options);
