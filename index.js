@@ -154,6 +154,14 @@ async function* map(generator, transform) {
   }
 }
 
+function calculateTimeout(expires, currentServerTime) {
+  const expiration = Date.parse(expires).valueOf();
+  const serverTime = Date.parse(currentServerTime).valueOf();
+  const difference = expiration - serverTime - 10000;
+  const newTimeout = difference < 50000 ? 50000 : difference; // default to min 50 seconds
+  return newTimeout;
+}
+
 /**
 *
 *
@@ -166,12 +174,13 @@ class MetasysServerApi {
 
   scheduleRefresh(timeout) {
     const self = this;
-    const interval = timeout || 1500000; // 25 minutes
     async function refreshToken() {
-      let accessToken = (await self.get('/refreshToken')).accessToken;
-      self.updateAccessToken(accessToken);
+      const response = await self.get('/refreshToken', {}, { resolveWithFullResponse: true });
+      const newTimeout = calculateTimeout(response.body.expires, response.headers.date);
+      self.updateAccessToken(response.body.accessToken);
+      setTimeout(refreshToken, newTimeout);
     }
-    setInterval(refreshToken, interval);
+    setTimeout(refreshToken, timeout);
   }
 
   updateAccessToken(accessToken) {
@@ -196,21 +205,22 @@ class MetasysServerApi {
     try {
       // By default POSTs don't follow redirects.
       const result = await this.requestOriginal
-        .post(Object.assign({ url, json: true, followAllRedirects: true, form: payload }, options));
+        .post(Object.assign({ url, json: true, followAllRedirects: true, form: payload, resolveWithFullResponse: true }, options));
       this.options = Object.assign({
         baseUrl: `https://${host}/api/v1`,
         json: true,
         auth: {
-          bearer: result.accessToken,
+          bearer: result.body.accessToken,
         },
       }, options);
       this.rp = this.requestOriginal.defaults(this.options);
-      this.scheduleRefresh();
+      this.scheduleRefresh(calculateTimeout(result.body.expires, result.headers.date));
     } catch (e) {
       // check for some common issues:
       // 1. Proxy server used for local server
       // 2. Unknown host
       // 3. Bad credentials
+      // 4. Self signed cert not trusted
       if (e.cause && e.cause.code === 'ECONNRESET' && e.message && e.message.startsWith('Error: tunneling')) {
         console.log('Error: There was an issue establishing a connection to the server.');
         console.log('This error is consistent with a proxy server being configured when accessing a local server,');
@@ -354,9 +364,9 @@ class MetasysServerApi {
   * @returns {*} - Returns the JSON response as an appropriate javascript type.
   * @async
   */
-  async get(relativeUrl, qs) {
+  async get(relativeUrl, qs, opt) {
     this.assertLoggedIn();
-    const options = Object.assign({ url: relativeUrl }, { qs });
+    const options = Object.assign({ url: relativeUrl }, { qs }, opt);
     return this.rp.get(options);
   }
 }
