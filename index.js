@@ -176,7 +176,7 @@ class MetasysServerApi {
 
   updateAccessToken(accessToken) {
     this.options.auth.bearer = accessToken;
-    this.rep = this.requestOriginal.defaults(this.options);
+    this.rp = this.requestOriginal.defaults(this.options);
   }
 
   /**
