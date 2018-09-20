@@ -169,7 +169,6 @@ class MetasysServerApi {
     const interval = timeout || 1500000; // 25 minutes
     async function refreshToken() {
       let accessToken = (await self.get('/refreshToken')).accessToken;
-      console.log(`New Access token: ${accessToken}`)
       self.updateAccessToken(accessToken);
     }
     setInterval(refreshToken, interval);
