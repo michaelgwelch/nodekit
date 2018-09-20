@@ -164,6 +164,22 @@ class MetasysServerApi {
     this.requestOriginal = requestObject || request;
   }
 
+  scheduleRefresh(timeout) {
+    const self = this;
+    const interval = timeout || 1500000; // 25 minutes
+    async function refreshToken() {
+      let accessToken = (await self.get('/refreshToken')).accessToken;
+      console.log(`New Access token: ${accessToken}`)
+      self.updateAccessToken(accessToken);
+    }
+    setInterval(refreshToken, interval);
+  }
+
+  updateAccessToken(accessToken) {
+    this.options.auth.bearer = accessToken;
+    this.rep = this.requestOriginal.defaults(this.options);
+  }
+
   /**
   * Logs the specified user into the Metasys Server and establishes a session. While this session
   * is active this instance can be used to make additional calls to the server.
@@ -190,6 +206,7 @@ class MetasysServerApi {
         },
       }, options);
       this.rp = this.requestOriginal.defaults(this.options);
+      this.scheduleRefresh();
     } catch (e) {
       // check for some common issues:
       // 1. Proxy server used for local server
