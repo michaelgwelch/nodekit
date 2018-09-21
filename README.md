@@ -1,5 +1,7 @@
 # nodekit
 
+[![CircleCI](https://circleci.com/gh/metasys-server/nodekit.svg?style=svg)](https://circleci.com/gh/metasys-server/nodekit)
+
 Metasys® Server REST API client for node.js
 
 This library is used to consume the Metasys Server API. It currently supports V1 of the Metasys® Server API.
