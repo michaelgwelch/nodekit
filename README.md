@@ -49,7 +49,7 @@ The easiest way to handle this is to get the cert in a `.pem` format and then sp
 ```javascript
 const fs = require('fs')
 const ca = fs.readFileSync('./path/to/cert.pem');
-const api = require('@jci/serverkit');
+const api = require('@metasys/nodekit');
 
 async main() {
   await api.login('user', 'pass', 'host', { ca });
