@@ -181,7 +181,9 @@ class MetasysServerApi {
     try {
       // By default POSTs don't follow redirects.
       const result = await this.requestOriginal
-        .post(Object.assign({ url, json: true, followAllRedirects: true, form: payload }, options));
+        .post(Object.assign({
+          url, json: true, followAllRedirects: true, form: payload,
+        }, options));
       this.options = Object.assign({
         baseUrl: `https://${host}/api/v1`,
         json: true,
