@@ -9,7 +9,7 @@ For all of the other examples, it is assumed that you have already imported the 
 and logged in as shown in the following example:
 
 ```javascript
-const _ = require('@metasysserver/nodekit');
+const _ = require('@metasys/nodekit');
 const { MetasysServerApi } = _;
 
 async main() {
