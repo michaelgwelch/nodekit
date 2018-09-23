@@ -1,6 +1,6 @@
-/* eslint-disable no-await-in-loop, no-console */
+/* eslint-disable no-await-in-loop */
 const request = require('request-promise-native');
-
+const debug = require('debug')('nodekit');
 /**
  * @description A light weight REST API client for the the Metasys Server.
  *
@@ -198,18 +198,18 @@ class MetasysServerApi {
       // 2. Unknown host
       // 3. Bad credentials
       if (e.cause && e.cause.code === 'ECONNRESET' && e.message && e.message.startsWith('Error: tunneling')) {
-        console.log('Error: There was an issue establishing a connection to the server.');
-        console.log('This error is consistent with a proxy server being configured when accessing a local server,');
+        debug(`Error: There was an issue establishing a connection to the server.
+        This error is consistent with a proxy server being configured when accessing a local server,`);
       } else if (e.cause && e.cause.code === 'ENOTFOUND') {
-        console.log(`Error: Unknown server '${host}'.`);
+        debug(`Error: Unknown server '${host}'.`);
       } else if (e.error && e.error.ApiErrorMessage && e.error.ApiErrorMessage.startsWith('Unable to login.')
         && e.statusCode && e.statusCode >= 400 && e.statusCode < 500) {
-        console.log('Error: There was an issue logging in. Your credentials may have been incorrect. Please try again.');
+        debug('Error: There was an issue logging in. Your credentials may have been incorrect. Please try again.');
       } else if (e.cause && e.cause.code === 'DEPTH_ZERO_SELF_SIGNED_CERT') {
-        console.log('Error: the server is using a self-signed cert that is not trusted.');
-        console.log('If you trust this server, configure your computer to trust its certificate.');
+        debug(`Error: the server is using a self-signed cert that is not trusted.
+        If you trust this server, configure your computer to trust its certificate.`);
       } else {
-        console.log(e);
+        debug('Error: login error %o', e.message);
       }
       return false;
     }
