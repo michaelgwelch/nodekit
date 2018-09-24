@@ -116,6 +116,7 @@ async function toArray(generator) {
 */
 async function* filter(generator, predicate) {
   const gen = (generator instanceof Promise) ? await generator : generator;
+
   /* eslint-disable-next-line no-restricted-syntax */
   for await (const item of gen) {
     if (predicate(item)) {
