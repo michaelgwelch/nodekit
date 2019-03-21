@@ -6,7 +6,15 @@ All notable changes to this project will be tracked in this file.
 
 ## [1.0.4] - 2019-03-21
 
+### Changed
+
+* Upgrade to use released authentication endpoint
 * Update dependencies due to reported potential security vulnerability in dev dependency.
+* Update README
+
+### Added
+
+* Add scripts for testing and linting
 
 ## [1.0.3] - 2018-09-19
 
