@@ -4,6 +4,10 @@ All notable changes to this project will be tracked in this file.
 
 ## Released
 
+## [1.0.4] - 2019-03-21
+
+* Update dependencies due to reported potential security vulnerability in dev dependency.
+
 ## [1.0.3] - 2018-09-19
 
 ### Changed
@@ -16,3 +20,4 @@ All notable changes to this project will be tracked in this file.
 * Initial Release
 
 [1.0.3]: https://github.com/metasys-server/nodekit/compare/v1.0.2...v1.0.3
+[1.0.4]: https://github.com/metasys-server/nodekit/compare/v1.0.3...v1.0.4
