@@ -40,7 +40,7 @@ context('MetasysApi', function () {
         expires,
       });
 
-      this.get = sinon.stub(rp, 'get').resolves({ items: [0, 1, 2] });
+      sinon.stub(rp, 'get').resolves({ items: [0, 1, 2] });
       // sinon.stub(rp, 'defaults').returns(this.git);
       this.api = new MetasysServerApi();
     });
