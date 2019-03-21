@@ -116,6 +116,7 @@ async function toArray(generator) {
 */
 async function* filter(generator, predicate) {
   const gen = (generator instanceof Promise) ? await generator : generator;
+
   /* eslint-disable-next-line no-restricted-syntax */
   for await (const item of gen) {
     if (predicate(item)) {
@@ -251,6 +252,12 @@ class MetasysServerApi {
     }
   }
 
+  // async generatorObject(collectionRelativeUrl, qs) {
+  //   const result = this.generator(collectionRelativeUrl, qs);
+  //   result.toArray = () => toArray(result);
+  //   return result;
+  // }
+
   async devices(queryString) {
     return this.generator('/networkDevices', Object.assign({ pageSize: 1000 }, queryString));
   }
@@ -289,9 +296,9 @@ class MetasysServerApi {
     const startTime = new Date(endTime.getFullYear(), endTime.getMonth(), endTime.getDate());
     const qs = Object.assign({ pageSize: 1000, startTime, endTime }, queryString);
     let url;
-    if (queryString.deviceId) {
+    if (queryString && queryString.deviceId) {
       url = `/networkDevices/${queryString.deviceId}/alarms`;
-    } else if (queryString.objectId) {
+    } else if (queryString && queryString.objectId) {
       url = `objects/${queryString.objectId}/alarms`;
     } else {
       url = '/alarms';
