@@ -183,8 +183,8 @@ class MetasysServerApi {
         .post(Object.assign({
           url, json: true, body: payload,
         }, options));
+      this.baseUrl = `https://${host}/api/v2`;
       this.options = Object.assign({
-        baseUrl: `https://${host}/api/v2`,
         json: true,
         auth: {
           bearer: result.accessToken,
@@ -340,8 +340,9 @@ class MetasysServerApi {
   * @async
   */
   async get(relativeUrl, qs) {
+    const url = relativeUrl.startsWith('https') ? relativeUrl : `${this.baseUrl}${relativeUrl}`;
     this.assertLoggedIn();
-    const options = Object.assign({ url: relativeUrl }, { qs });
+    const options = Object.assign({ url }, { qs });
     return this.rp.get(options);
   }
 }
