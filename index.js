@@ -16,7 +16,7 @@ const request = require('request-promise-native');
  *
  * @example <caption>Example usage of iterating over an async generator</caption>
  * {@lang javascript}
- * const api = require('@jci/serverkit');
+ * const api = require('@metasys/nodekit');
  *
  * async main() {
  *   await api.login('user', 'pass', 'host');
@@ -32,7 +32,7 @@ const request = require('request-promise-native');
  * @todo Add better error handling
  * @todo Add methods that return array rather than generators. For now use `toArray`
  * @todo Detect when a call fails to token expiration and refresh token
- * @module serverkit
+ * @module nodekit
  * @tutorial example-calls
  */
 
@@ -179,10 +179,9 @@ class MetasysServerApi {
     const url = `https://${host}/api/v2/login`;
     const payload = { username: user, password: pass };
     try {
-      // By default POSTs don't follow redirects.
       const result = await this.requestOriginal
         .post(Object.assign({
-          url, json: true, followAllRedirects: true, form: payload,
+          url, json: true, body: payload,
         }, options));
       this.options = Object.assign({
         baseUrl: `https://${host}/api/v2`,
@@ -387,7 +386,6 @@ class Reference {
     return this.reference;
   }
 }
-
 
 module.exports = {
   MetasysServerApi,
