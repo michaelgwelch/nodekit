@@ -4,6 +4,12 @@ All notable changes to this project will be tracked in this file.
 
 ## Released
 
+## [2.0.0] - 2019-03-25
+
+### Breaking Change
+
+* Updated for Metasys 10.1 (won't work with Metasys 10.0)
+
 ## [1.0.4] - 2019-03-21
 
 ### Changed
@@ -29,3 +35,4 @@ All notable changes to this project will be tracked in this file.
 
 [1.0.3]: https://github.com/metasys-server/nodekit/compare/v1.0.2...v1.0.3
 [1.0.4]: https://github.com/metasys-server/nodekit/compare/v1.0.3...v1.0.4
+[2.0.0]: https://github.com/metasys-server/nodekit/compare/v1.0.4...v2.0.0
