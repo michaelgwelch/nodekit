@@ -49,13 +49,7 @@ context('MetasysApi', function () {
     it('sends a post with username, password in json', async function () {
       await this.api.login('meta', 'pass', 'host');
 
-      this.stub.getCall(0).args[0].should.deep.include({ form: { username: 'meta', password: 'pass' } });
-    });
-
-    it('ensure that we follow redirects even on POST', async function () {
-      await this.api.login('', '', '');
-
-      this.stub.getCall(0).args[0].should.deep.include({ followAllRedirects: true });
+      this.stub.getCall(0).args[0].should.deep.include({ body: { username: 'meta', password: 'pass' } });
     });
   });
 });

@@ -16,7 +16,7 @@ const request = require('request-promise-native');
  *
  * @example <caption>Example usage of iterating over an async generator</caption>
  * {@lang javascript}
- * const api = require('@jci/serverkit');
+ * const api = require('@metasys/nodekit');
  *
  * async main() {
  *   await api.login('user', 'pass', 'host');
@@ -32,7 +32,7 @@ const request = require('request-promise-native');
  * @todo Add better error handling
  * @todo Add methods that return array rather than generators. For now use `toArray`
  * @todo Detect when a call fails to token expiration and refresh token
- * @module serverkit
+ * @module nodekit
  * @tutorial example-calls
  */
 
@@ -176,16 +176,15 @@ class MetasysServerApi {
   */
   async login(user, pass, host, options) {
     this.host = host;
-    const url = `https://${host}/api/v1/login`;
+    const url = `https://${host}/api/v2/login`;
     const payload = { username: user, password: pass };
     try {
-      // By default POSTs don't follow redirects.
       const result = await this.requestOriginal
         .post(Object.assign({
-          url, json: true, followAllRedirects: true, form: payload,
+          url, json: true, body: payload,
         }, options));
+      this.baseUrl = `https://${host}/api/v2`;
       this.options = Object.assign({
-        baseUrl: `https://${host}/api/v1`,
         json: true,
         auth: {
           bearer: result.accessToken,
@@ -341,8 +340,9 @@ class MetasysServerApi {
   * @async
   */
   async get(relativeUrl, qs) {
+    const url = relativeUrl.startsWith('https') ? relativeUrl : `${this.baseUrl}${relativeUrl}`;
     this.assertLoggedIn();
-    const options = Object.assign({ url: relativeUrl }, { qs });
+    const options = Object.assign({ url }, { qs });
     return this.rp.get(options);
   }
 }
@@ -387,7 +387,6 @@ class Reference {
     return this.reference;
   }
 }
-
 
 module.exports = {
   MetasysServerApi,
